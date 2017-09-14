@@ -1,8 +1,12 @@
 import com.GameInterface.Game.TeamInterface;
+import com.GameInterface.Game.CharacterBase;
 import com.Utils.Archive;
+import com.Utils.ID32;
 
 class TargetLowest
 {    
+	static var HOTKEY_TARGET:String = "com.xeio.TargetLowest.HotkeyManager.ToggleFriendlyTarget";
+	
 	private var m_swfRoot: MovieClip;
 	
 	public static function main(swfRoot:MovieClip):Void 
@@ -46,11 +50,17 @@ class TargetLowest
 		TeamInterface.SignalClientLeftTeam.Connect(TeamLeave, this);
 		TeamInterface.SignalClientJoinedRaid.Connect(TeamJoin, this);
 		TeamInterface.SignalClientLeftRaid.Connect(TeamLeave, this);
+		
+		var characterId:ID32 = CharacterBase.GetClientCharID();
+		if (TeamInterface.IsInRaid(characterId) || TeamInterface.IsInTeam(characterId))
+		{
+			com.GameInterface.Input.RegisterHotkey(_global.Enums.InputCommand.e_InputCommand_Target_FriendlyNext, HOTKEY_TARGET, _global.Enums.Hotkey.eHotkeyDown, 0); 
+		}
 	}
 	
 	function TeamJoin()
 	{
-		com.GameInterface.Input.RegisterHotkey(_global.Enums.InputCommand.e_InputCommand_Target_FriendlyNext, "com.xeio.TargetLowest.HotkeyManager.ToggleFriendlyTarget", _global.Enums.Hotkey.eHotkeyDown, 0); 
+		com.GameInterface.Input.RegisterHotkey(_global.Enums.InputCommand.e_InputCommand_Target_FriendlyNext, HOTKEY_TARGET, _global.Enums.Hotkey.eHotkeyDown, 0); 
 	}
 	
 	function TeamLeave()
