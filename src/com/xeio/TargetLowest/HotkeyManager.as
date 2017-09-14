@@ -52,6 +52,7 @@ class com.xeio.TargetLowest.HotkeyManager
 		{
 			var character:Character = Character.GetCharacter(team.m_TeamMembers[teamMember].m_CharacterId);
 			if (!character) continue;
+            if (character.IsDead()) continue;
 			
 			var hasHighCorruption:Boolean = false;
 			var corruptedBuff:BuffData = character.m_InvisibleBuffList[CORRUPTION_BUFFID] || character.m_InvisibleBuffList[MARTYRDOM_BUFFID];
