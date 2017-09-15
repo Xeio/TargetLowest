@@ -11,6 +11,7 @@ class com.xeio.TargetLowest.HotkeyManager
 {
 	static var CORRUPTION_BUFFID:Number = 9257969;
 	static var MARTYRDOM_BUFFID:Number = 9257968;
+    static var DEATH_BUFFID:Number = 9212298;
 	static var ROLE_TANK:Number = ProjectUtils.GetUint32TweakValue("GroupFinder_Tank_Buff");
 	
 	static function ToggleFriendlyTarget()
@@ -53,6 +54,7 @@ class com.xeio.TargetLowest.HotkeyManager
 			var character:Character = Character.GetCharacter(team.m_TeamMembers[teamMember].m_CharacterId);
 			if (!character) continue;
             if (character.IsDead()) continue;
+            if (character.m_BuffList[DEATH_BUFFID] || character.m_InvisibleBuffList[DEATH_BUFFID]) continue;
 			
 			var hasHighCorruption:Boolean = false;
 			var corruptedBuff:BuffData = character.m_InvisibleBuffList[CORRUPTION_BUFFID] || character.m_InvisibleBuffList[MARTYRDOM_BUFFID];
