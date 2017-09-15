@@ -53,6 +53,7 @@ class com.xeio.TargetLowest.HotkeyManager
 		{
 			var character:Character = Character.GetCharacter(team.m_TeamMembers[teamMember].m_CharacterId);
 			if (!character) continue;
+            if (character.GetName() == "") continue; //Proxy check for character being out of range
             if (character.IsDead()) continue;
             if (character.m_BuffList[DEATH_BUFFID] || character.m_InvisibleBuffList[DEATH_BUFFID]) continue;
 			
@@ -82,14 +83,14 @@ class com.xeio.TargetLowest.HotkeyManager
 				}
 			}
 			
-			if (character.m_BuffList[ROLE_TANK] != undefined || character.m_InvisibleBuffList[ROLE_TANK] != undefined)
+			if (character.m_BuffList[ROLE_TANK] || character.m_InvisibleBuffList[ROLE_TANK])
 			{
 				if (searchStatus.lowestPercent == 1)
 				{
-					//Everyone is at max HP, set tank to target
-					searchStatus.characterWithLowestHP = character;
-					searchStatus.lowestPercent = percent;
-					searchStatus.currentTargetIsTank = true;
+                    //Everyone is at max HP, set tank to target
+                    searchStatus.characterWithLowestHP = character;
+                    searchStatus.lowestPercent = percent;
+                    searchStatus.currentTargetIsTank = true;
 				}
 			}
 		}
