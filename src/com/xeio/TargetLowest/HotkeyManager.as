@@ -83,15 +83,19 @@ class com.xeio.TargetLowest.HotkeyManager
 				}
 			}
 			
-			if (character.m_BuffList[ROLE_TANK] || character.m_InvisibleBuffList[ROLE_TANK])
+            if (searchStatus.lowestPercent == 1)
 			{
-				if (searchStatus.lowestPercent == 1)
-				{
+                if (character.m_BuffList[ROLE_TANK] || character.m_InvisibleBuffList[ROLE_TANK])
+                {
                     //Everyone is at max HP, set tank to target
                     searchStatus.characterWithLowestHP = character;
-                    searchStatus.lowestPercent = percent;
                     searchStatus.currentTargetIsTank = true;
 				}
+                else if (!searchStatus.currentTargetIsTank && (!searchStatus.largestHP || maxHP > searchStatus.largestHP))
+                {
+                    searchStatus.largestHP = maxHP;
+                    searchStatus.characterWithLowestHP = character;
+                }
 			}
 		}
 	}
