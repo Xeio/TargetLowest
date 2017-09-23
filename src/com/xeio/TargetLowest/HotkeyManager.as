@@ -12,7 +12,7 @@ class com.xeio.TargetLowest.HotkeyManager
 	static var CORRUPTION_BUFFID:Number = 9257969;
 	static var MARTYRDOM_BUFFID:Number = 9257968;
     static var DEATH_BUFFID:Number = 9212298;
-	static var ROLE_TANK:Number = ProjectUtils.GetUint32TweakValue("GroupFinder_Tank_Buff");
+	static var ROLE_TANK:Number = ProjectUtils.GetUint32TweakValue("GroupFinder_Tank_Buff"); //9166625
 	
 	static function ToggleFriendlyTarget()
 	{
@@ -68,7 +68,7 @@ class com.xeio.TargetLowest.HotkeyManager
 			var currentHP = character.GetStat(_global.Enums.Stat.e_Health, 2);
 			var percent = currentHP / maxHP;
 			
-			if (percent <= searchStatus.lowestPercent)
+			if (percent < searchStatus.lowestPercent)
 			{
 				if (hasHighCorruption && searchStatus.lowestIsCorrupted)
 				{
