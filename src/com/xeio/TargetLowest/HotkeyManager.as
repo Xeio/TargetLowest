@@ -67,21 +67,30 @@ class com.xeio.TargetLowest.HotkeyManager
 			var maxHP = character.GetStat(_global.Enums.Stat.e_Life, 2);
 			var currentHP = character.GetStat(_global.Enums.Stat.e_Health, 2);
 			var percent = currentHP / maxHP;
-			
-			if (percent < searchStatus.lowestPercent)
-			{
-				if (hasHighCorruption && searchStatus.lowestIsCorrupted)
-				{
-					searchStatus.characterWithLowestHP = character;
-					searchStatus.lowestPercent = percent;
-				}
-				else
-				{
-					searchStatus.characterWithLowestHP = character;
-					searchStatus.lowestPercent = percent;
-					searchStatus.lowestIsCorrupted = false;
-				}
-			}
+            
+            if (!hasHighCorruption && searchStatus.lowestIsCorrupted && percent < 1)
+            {
+                searchStatus.characterWithLowestHP = character;
+                searchStatus.lowestPercent = percent;
+                searchStatus.lowestIsCorrupted = false;
+            }
+            else if (percent < searchStatus.lowestPercent)
+            {
+                if(!hasHighCorruption)
+                {
+                    searchStatus.characterWithLowestHP = character;
+                    searchStatus.lowestPercent = percent;
+                    if (percent < 1)
+                    {
+                        searchStatus.lowestIsCorrupted = false;
+                    }
+                }
+                else if (hasHighCorruption && searchStatus.lowestIsCorrupted)
+                {
+                    searchStatus.characterWithLowestHP = character;
+                    searchStatus.lowestPercent = percent;
+                }
+            }
 			
             if (searchStatus.lowestPercent == 1)
 			{
