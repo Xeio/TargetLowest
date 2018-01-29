@@ -67,6 +67,7 @@ class com.xeio.TargetLowest.HotkeyManager
 			var maxHP = character.GetStat(_global.Enums.Stat.e_Life, 2);
 			var currentHP = character.GetStat(_global.Enums.Stat.e_Health, 2);
 			var percent = currentHP / maxHP;
+            if (percent > 1) percent = 1;
             
             if (!hasHighCorruption && searchStatus.lowestIsCorrupted && percent < 1)
             {
