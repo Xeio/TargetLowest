@@ -9,8 +9,6 @@ import com.GameInterface.ProjectUtils;
 
 class com.xeio.TargetLowest.HotkeyManager
 {
-	static var CORRUPTION_BUFFID:Number = 9257969;
-	static var MARTYRDOM_BUFFID:Number = 9257968;
     static var DEATH_BUFFID:Number = 9212298;
 	static var ROLE_TANK:Number = ProjectUtils.GetUint32TweakValue("GroupFinder_Tank_Buff"); //9166625
 	
@@ -36,7 +34,6 @@ class com.xeio.TargetLowest.HotkeyManager
 		var searchStatus:Object = new Object();
 		searchStatus.characterWithLowestHP = undefined;
 		searchStatus.lowestPercent = 999;
-		searchStatus.lowestIsCorrupted = true;
 		searchStatus.currentTargetIsTank = false;
 		
 		for (var key:String in teams)
@@ -57,40 +54,15 @@ class com.xeio.TargetLowest.HotkeyManager
             if (character.IsDead()) continue;
             if (character.m_BuffList[DEATH_BUFFID] || character.m_InvisibleBuffList[DEATH_BUFFID]) continue;
 			
-			var hasHighCorruption:Boolean = false;
-			var corruptedBuff:BuffData = character.m_InvisibleBuffList[CORRUPTION_BUFFID] || character.m_InvisibleBuffList[MARTYRDOM_BUFFID];
-			if (corruptedBuff && corruptedBuff.m_Count > 90)
-			{
-				hasHighCorruption = true;
-			}
-			
 			var maxHP = character.GetStat(_global.Enums.Stat.e_Life, 2);
 			var currentHP = character.GetStat(_global.Enums.Stat.e_Health, 2);
 			var percent = currentHP / maxHP;
             if (percent > 1) percent = 1;
             
-            if (!hasHighCorruption && searchStatus.lowestIsCorrupted && percent < 1)
+            if (percent < searchStatus.lowestPercent)
             {
                 searchStatus.characterWithLowestHP = character;
                 searchStatus.lowestPercent = percent;
-                searchStatus.lowestIsCorrupted = false;
-            }
-            else if (percent < searchStatus.lowestPercent)
-            {
-                if(!hasHighCorruption)
-                {
-                    searchStatus.characterWithLowestHP = character;
-                    searchStatus.lowestPercent = percent;
-                    if (percent < 1)
-                    {
-                        searchStatus.lowestIsCorrupted = false;
-                    }
-                }
-                else if (hasHighCorruption && searchStatus.lowestIsCorrupted)
-                {
-                    searchStatus.characterWithLowestHP = character;
-                    searchStatus.lowestPercent = percent;
-                }
             }
 			
             if (searchStatus.lowestPercent == 1)
